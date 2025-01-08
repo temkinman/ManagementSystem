@@ -15,4 +15,8 @@
     <Folder Include="Mapping\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Catalog.Domain\Catalog.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

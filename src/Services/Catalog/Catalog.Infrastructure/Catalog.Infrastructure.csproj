@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="EntityTypeConfiguration\" />
+    <Folder Include="Contexts\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
