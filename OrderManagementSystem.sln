@@ -1,10 +1,63 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{925F4C30-272E-4825-A9CF-E05595BF9D0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7DD36671-9240-492F-BD7E-6A2976679F60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{1AB1B97B-0A6D-4194-A207-610A6DD9AB29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{C363D065-AF7A-4BBA-A927-868539669107}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C9DDF094-2F8A-4B96-90B1-F67BB00C896D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3C02C048-8216-4D34-A7C0-08B0455F4F9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Application", "src\Services\Catalog\Catalog.Application\Catalog.Application.csproj", "{C5C93381-DB64-48FE-BCAE-783B152AD277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Domain", "src\Services\Catalog\Catalog.Domain\Catalog.Domain.csproj", "{02150365-3AA4-4C09-8840-E0EC6D6352D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Infrastructure", "src\Services\Catalog\Catalog.Infrastructure\Catalog.Infrastructure.csproj", "{4C8C0D7C-B9C0-443A-A6A7-220B57CB7455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "src\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj", "{2E3F384A-B416-456C-881D-A6419706ED8A}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5C93381-DB64-48FE-BCAE-783B152AD277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C93381-DB64-48FE-BCAE-783B152AD277}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C93381-DB64-48FE-BCAE-783B152AD277}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C93381-DB64-48FE-BCAE-783B152AD277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02150365-3AA4-4C09-8840-E0EC6D6352D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02150365-3AA4-4C09-8840-E0EC6D6352D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02150365-3AA4-4C09-8840-E0EC6D6352D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02150365-3AA4-4C09-8840-E0EC6D6352D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C8C0D7C-B9C0-443A-A6A7-220B57CB7455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C8C0D7C-B9C0-443A-A6A7-220B57CB7455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C8C0D7C-B9C0-443A-A6A7-220B57CB7455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C8C0D7C-B9C0-443A-A6A7-220B57CB7455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E3F384A-B416-456C-881D-A6419706ED8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E3F384A-B416-456C-881D-A6419706ED8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E3F384A-B416-456C-881D-A6419706ED8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E3F384A-B416-456C-881D-A6419706ED8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7DD36671-9240-492F-BD7E-6A2976679F60} = {925F4C30-272E-4825-A9CF-E05595BF9D0A}
+		{1AB1B97B-0A6D-4194-A207-610A6DD9AB29} = {925F4C30-272E-4825-A9CF-E05595BF9D0A}
+		{C363D065-AF7A-4BBA-A927-868539669107} = {7DD36671-9240-492F-BD7E-6A2976679F60}
+		{C9DDF094-2F8A-4B96-90B1-F67BB00C896D} = {925F4C30-272E-4825-A9CF-E05595BF9D0A}
+		{3C02C048-8216-4D34-A7C0-08B0455F4F9B} = {C363D065-AF7A-4BBA-A927-868539669107}
+		{C5C93381-DB64-48FE-BCAE-783B152AD277} = {3C02C048-8216-4D34-A7C0-08B0455F4F9B}
+		{02150365-3AA4-4C09-8840-E0EC6D6352D2} = {3C02C048-8216-4D34-A7C0-08B0455F4F9B}
+		{4C8C0D7C-B9C0-443A-A6A7-220B57CB7455} = {C363D065-AF7A-4BBA-A927-868539669107}
+		{2E3F384A-B416-456C-881D-A6419706ED8A} = {1AB1B97B-0A6D-4194-A207-610A6DD9AB29}
 	EndGlobalSection
 EndGlobal
