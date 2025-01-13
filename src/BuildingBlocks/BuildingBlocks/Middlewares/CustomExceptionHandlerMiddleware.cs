@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using BuildingBlocks.Exceptions;
+using FluentValidation;
 
 namespace BuildingBlocks.Middlewares;
 
@@ -33,12 +32,18 @@ public class CustomExceptionHandlerMiddleware
     private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var code = StatusCodes.Status500InternalServerError;
-        var result = "Something went wrong";
+        var result = exception.InnerException?.Message ?? exception.Message;
+        
         switch (exception)
         {
             case ValidationException validationException:
                 code = StatusCodes.Status400BadRequest;
-                result = JsonSerializer.Serialize(validationException.Message);
+                
+                var errors = validationException.Errors
+                    .GroupBy(e => e.PropertyName) // Group errors by property name
+                    .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray()); // Create a dictionary of property names and their error messages
+
+                result =  JsonSerializer.Serialize(errors);
                 _logger.LogError(exception, "ValidationException was occured");
                 break;
             case NotFoundException:
@@ -60,7 +65,7 @@ public class CustomExceptionHandlerMiddleware
                 break;
         }
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)code;
+        context.Response.StatusCode = code;
 
         if (result == string.Empty)
         {
