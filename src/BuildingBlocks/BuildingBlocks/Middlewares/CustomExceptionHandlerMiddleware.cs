@@ -32,20 +32,28 @@ public class CustomExceptionHandlerMiddleware
 
     private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        var code = HttpStatusCode.InternalServerError;
+        var code = StatusCodes.Status500InternalServerError;
         var result = "Something went wrong";
         switch (exception)
         {
             case ValidationException validationException:
-                code = HttpStatusCode.BadRequest;
+                code = StatusCodes.Status400BadRequest;
                 result = JsonSerializer.Serialize(validationException.Message);
+                _logger.LogError(exception, "ValidationException was occured");
                 break;
             case NotFoundException:
-                code = HttpStatusCode.NotFound;
+                code = StatusCodes.Status404NotFound;
+                _logger.LogError(exception, "NotFoundException was occured");
                 break;
             case ConflictException conflictException:
-                code = HttpStatusCode.Conflict;
+                code = StatusCodes.Status409Conflict;
                 result = JsonSerializer.Serialize(conflictException.Message);
+                _logger.LogError(exception, "ConflictException was occured");
+                break;
+            case OperationCanceledException canceledException:
+                code = StatusCodes.Status499ClientClosedRequest;
+                result = JsonSerializer.Serialize(canceledException.Message);
+                _logger.LogError(exception, "Operation was canceled");
                 break;
             default:
                 _logger.LogError(exception, "An unexpected error occurred");
