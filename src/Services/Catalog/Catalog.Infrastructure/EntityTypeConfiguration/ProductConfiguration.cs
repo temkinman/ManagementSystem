@@ -11,13 +11,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.ToTable("Products");
         
         builder.HasKey(x => x.Id);
-        builder.HasIndex(x => x.ProductName).IsUnique();
+        builder.HasIndex(x => x.Name).IsUnique();
         
         builder.HasOne(x=>x.Category)
             .WithMany(x=>x.Products)
             .HasForeignKey(x=>x.CategoryId);
         
-        builder.Property(x => x.ProductName)
+        builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(100);
         
