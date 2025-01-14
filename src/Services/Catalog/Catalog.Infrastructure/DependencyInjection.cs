@@ -13,9 +13,11 @@ public static class DependencyInjection
     {
         services.AddScoped<ICatalogDbContext, CatalogDbContext>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         
         services.AddDbContext<CatalogDbContext>(options => 
-            options.UseNpgsql(configuration.GetConnectionString(nameof(CatalogDbContext))));
+            options.UseNpgsql(configuration.GetConnectionString(nameof(CatalogDbContext)))
+                .LogTo(Console.WriteLine));
         
         return services;
     }

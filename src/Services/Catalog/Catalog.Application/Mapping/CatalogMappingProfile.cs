@@ -1,5 +1,5 @@
 using AutoMapper;
-using Catalog.Application.Catalogs.Commands;
+using Catalog.Application.Catalogs.Commands.CreateProduct;
 using Catalog.Application.Dtos;
 using Catalog.Domain.Entities;
 
@@ -15,8 +15,7 @@ public class CatalogMappingProfile : Profile
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.ProductDto.Description))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.ProductDto.Quantity))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.ProductDto.Price))
-            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.ProductDto.CategoryDto != null ?
-                new Category { Name = src.ProductDto.CategoryDto.Name } : null));
+            .ForMember(dest => dest.Category, opt => opt.Ignore());
 
         CreateMap<ProductDto, Product>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())

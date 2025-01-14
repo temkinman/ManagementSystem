@@ -1,6 +1,6 @@
 using AutoMapper;
 using Catalog.Api.Dto;
-using Catalog.Application.Catalogs.Commands;
+using Catalog.Application.Catalogs.Commands.CreateProduct;
 
 namespace Catalog.Api.Mapping;
 

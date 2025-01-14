@@ -2,7 +2,7 @@ using BuildingBlocks.CQRS;
 using Catalog.Application.Dtos;
 using FluentValidation;
 
-namespace Catalog.Application.Catalogs.Commands;
+namespace Catalog.Application.Catalogs.Commands.CreateProduct;
 
 public record CreateProductCommand(ProductDto ProductDto) : ICommand<CreateProductResult>;
 

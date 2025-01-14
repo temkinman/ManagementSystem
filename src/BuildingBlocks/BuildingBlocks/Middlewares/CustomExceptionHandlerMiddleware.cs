@@ -40,8 +40,8 @@ public class CustomExceptionHandlerMiddleware
                 code = StatusCodes.Status400BadRequest;
                 
                 var errors = validationException.Errors
-                    .GroupBy(e => e.PropertyName) // Group errors by property name
-                    .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray()); // Create a dictionary of property names and their error messages
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
 
                 result =  JsonSerializer.Serialize(errors);
                 _logger.LogError(exception, "ValidationException was occured");

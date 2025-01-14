@@ -3,7 +3,7 @@ using BuildingBlocks.Middlewares;
 using Catalog.Api.Mapping;
 using Catalog.Api.Middlewares;
 using Catalog.Application;
-using Catalog.Application.Catalogs.Commands;
+using Catalog.Application.Catalogs.Commands.CreateProduct;
 using Catalog.Infrastructure;
 using FluentValidation;
 

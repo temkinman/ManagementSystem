@@ -4,22 +4,23 @@ using BuildingBlocks.Exceptions;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.Application.Catalogs.Commands;
+namespace Catalog.Application.Catalogs.Commands.CreateProduct;
 
 public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     private readonly IProductRepository _productRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IMapper _mapper;
-    private readonly IValidator<CreateProductCommand> _createProductValidator;
     
-    public CreateProductCommandHandler(IMapper mapper, IProductRepository productRepository, IValidator<CreateProductCommand> createProductValidator)
+    public CreateProductCommandHandler(IMapper mapper,
+        IProductRepository productRepository,
+        IValidator<CreateProductCommand> createProductValidator,
+        ICategoryRepository categoryRepository)
     {
         _mapper = mapper;
         _productRepository = productRepository;
-        _createProductValidator = createProductValidator;
+        _categoryRepository = categoryRepository;
     }
     
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -34,10 +35,29 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
             throw new ConflictException("Product with this name already exists.");
         }
         
+        Category? existingCategory = null;
+        if (command.ProductDto.CategoryDto != null)
+        {
+            existingCategory = await _categoryRepository.GetItemByConditionAsync(
+                x => x.Name == command.ProductDto.CategoryDto.Name, cancellationToken);
+        }
+
+        if (existingCategory != null)
+        {
+            productInput.CategoryId = existingCategory.Id;
+        }
+        else if (command.ProductDto.CategoryDto != null)
+        {
+            productInput.Category = new Category
+            {
+                Id = Guid.NewGuid(),
+                Name = command.ProductDto.CategoryDto.Name 
+            };
+        }
+        
         productInput.Id = Guid.NewGuid();
         productInput.CreatedDateUtc = DateTime.UtcNow;
         productInput.UpdatedDateUtc = DateTime.UtcNow;
-        productInput.CategoryId = Guid.Parse("ab7b3311-1ae1-4bd8-911b-c1f4538b814d");
         
         Product addedProduct = await _productRepository.CreateAsync(productInput, cancellationToken);
 

@@ -10,7 +10,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>(ServiceLifetime.Transient);
         services.AddAutoMapper(typeof(CatalogMappingProfile).Assembly);
 
         return services;
