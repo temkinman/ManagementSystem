@@ -11,11 +11,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<ICatalogDbContext, CatalogDbContext>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         
-        services.AddDbContext<CatalogDbContext>(options => 
+        services.AddDbContext<ICatalogDbContext,CatalogDbContext>(options => 
             options.UseNpgsql(configuration.GetConnectionString(nameof(CatalogDbContext)))
                 .LogTo(Console.WriteLine));
         
