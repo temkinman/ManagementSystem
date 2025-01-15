@@ -13,9 +13,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasKey(x => x.Id);
         builder.HasIndex(x => x.Name).IsUnique();
         
-        builder.HasOne(x=>x.Category)
-            .WithMany(x=>x.Products)
-            .HasForeignKey(x=>x.CategoryId);
+        builder.HasOne(x=> x.Category)
+            .WithMany(x=> x.Products)
+            .HasForeignKey(x=> x.CategoryId);
         
         builder.Property(x => x.Name)
             .IsRequired()
