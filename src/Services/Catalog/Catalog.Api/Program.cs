@@ -1,7 +1,6 @@
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Middlewares;
 using Catalog.Api.Mapping;
-using Catalog.Api.Middlewares;
 using Catalog.Application;
 using Catalog.Application.Catalogs.Commands.CreateProduct;
 using Catalog.Infrastructure;
@@ -31,7 +30,6 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<CustomExceptionHandlerMiddleware>();
-app.UseMiddleware<TaskCancellationHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

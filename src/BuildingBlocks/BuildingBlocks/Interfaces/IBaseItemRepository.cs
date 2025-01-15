@@ -9,5 +9,5 @@ public interface IBaseItemRepository<T>
     Task<T?> GetItemByConditionAsync(Expression<Func<T, bool>> conditionExpression, CancellationToken cancellationToken = default);
     Task<T> CreateAsync(T item, CancellationToken cancellationToken = default);
     Task<T> UpdateAsync(T item, CancellationToken cancellationToken = default);
-    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(T item, CancellationToken cancellationToken = default);
 }

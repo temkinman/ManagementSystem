@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using BuildingBlocks.Exceptions;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using Catalog.Infrastructure.Contexts;
@@ -37,8 +36,6 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<Category> CreateAsync(Category category, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(category, nameof(category));
-        
         await _catalogDbContext.Categories.AddAsync(category, cancellationToken);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
         
@@ -47,25 +44,14 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<Category> UpdateAsync(Category category, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(category, nameof(category));
-        
         _catalogDbContext.Categories.Update(category);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
 
         return category;
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(Category category, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(Guid.Empty == id, nameof(id));
-        
-        Category? category = await _catalogDbContext.Categories.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        if (category == null)
-        {
-            throw new NotFoundException(nameof(category), category);
-        }
-        
         _catalogDbContext.Categories.Remove(category);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
         

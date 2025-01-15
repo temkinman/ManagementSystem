@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Catalog.Infrastructure\Catalog.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
 </Project>

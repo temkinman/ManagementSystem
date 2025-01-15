@@ -55,10 +55,11 @@ public class CustomExceptionHandlerMiddleware
                 result = JsonSerializer.Serialize(conflictException.Message);
                 _logger.LogError(exception, "ConflictException was occured");
                 break;
-            case OperationCanceledException canceledException:
+            case TaskCanceledException:
+            case OperationCanceledException:
                 code = StatusCodes.Status499ClientClosedRequest;
-                result = JsonSerializer.Serialize(canceledException.Message);
-                _logger.LogError(exception, "Operation was canceled");
+                result = JsonSerializer.Serialize(exception.Message);
+                _logger.LogInformation(exception, "Operation was canceled");
                 break;
             default:
                 _logger.LogError(exception, "An unexpected error occurred");

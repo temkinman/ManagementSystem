@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using BuildingBlocks.Exceptions;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +34,8 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> CreateAsync(Product product, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(product, nameof(product));
+        product.CreatedDateUtc = DateTime.UtcNow;
+        product.UpdatedDateUtc = DateTime.UtcNow;
         
         await _catalogDbContext.Products.AddAsync(product, cancellationToken);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
@@ -45,25 +45,14 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> UpdateAsync(Product product, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(product, nameof(product));
-        
         _catalogDbContext.Products.Update(product);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
 
         return product;
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<bool> DeleteAsync(Product product, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(Guid.Empty == id, nameof(id));
-        
-        Product? product = await _catalogDbContext.Products.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        if (product == null)
-        {
-            throw new NotFoundException(nameof(product), product);
-        }
-        
         _catalogDbContext.Products.Remove(product);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
         
