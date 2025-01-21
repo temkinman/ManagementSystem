@@ -4,7 +4,6 @@ using BuildingBlocks.Exceptions;
 using Catalog.Application.Dtos;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
-using FluentValidation;
 
 namespace Catalog.Application.Catalogs.Commands.CreateProduct;
 
@@ -16,7 +15,6 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
     
     public CreateProductCommandHandler(IMapper mapper,
         IProductRepository productRepository,
-        IValidator<CreateProductCommand> createProductValidator,
         ICategoryRepository categoryRepository)
     {
         _mapper = mapper;
@@ -30,7 +28,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
 
         Product productInput = _mapper.Map<Product>(command);
 
-        Product? existingProduct = await _productRepository.GetItemByConditionAsync(x => x.Name == productInput.Name,cancellationToken);
+        Product? existingProduct = await _productRepository.GetItemByConditionAsync(x => x.Name == productInput.Name, cancellationToken);
         if (existingProduct != null)
         {
             throw new ConflictException("Product with this name already exists.");
@@ -46,7 +44,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
         return new CreateProductResult(addedProduct.Id);
     }
 
-    private async Task InitCategoryForProduct(Product product, CategoryDto categoryDto,  CancellationToken cancellationToken)
+    public async Task InitCategoryForProduct(Product product, CategoryDto categoryDto,  CancellationToken cancellationToken)
     {
         Category? existingCategory = await _categoryRepository.GetItemByConditionAsync(
             x => x.Name == categoryDto.Name, cancellationToken);

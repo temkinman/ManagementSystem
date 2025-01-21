@@ -5,7 +5,8 @@ public record ProductDto(
     string Description,
     decimal Price,
     int Quantity,
-    DateTime CreatedDateUtc,
-    DateTime UpdatedDateUtc,
-    CategoryDto? CategoryDto
-);
+    CategoryDto? CategoryDto)
+{
+    public ProductDto() : this(string.Empty, string.Empty, 0m, 0, null)
+    { }
+};
