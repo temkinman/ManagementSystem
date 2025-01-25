@@ -2,7 +2,7 @@ using BuildingBlocks.CQRS;
 using Catalog.Application.Dtos;
 using FluentValidation;
 
-namespace Catalog.Application.Catalogs.Commands.CreateCategory;
+namespace Catalog.Application.Catalogs.Commands.Categories.CreateCategory;
 
 public record CreateCategoryCommand(string CategoryName) : ICommand<CreateCategoryResult>;
 

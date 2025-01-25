@@ -1,10 +1,11 @@
 using AutoMapper;
 using Catalog.Api.Dto;
-using Catalog.Application.Catalogs.Commands.CreateProduct;
-using Catalog.Application.Catalogs.Commands.DeleteProduct;
-using Catalog.Application.Catalogs.Commands.UpdateProduct;
+using Catalog.Application.Catalogs.Commands.Products.CreateProduct;
+using Catalog.Application.Catalogs.Commands.Products.DeleteProduct;
+using Catalog.Application.Catalogs.Commands.Products.UpdateProduct;
 using Catalog.Application.Catalogs.Queries.GetAllProducts;
 using Catalog.Application.Catalogs.Queries.GetProductById;
+using Catalog.Application.Catalogs.Queries.GetProductsByCategoryName;
 using Catalog.Application.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace Catalog.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class CatalogController : ControllerBase
+    [Route("api/[controller]")]
+    public class ProductController : ControllerBase
     {
-        private readonly ILogger<CatalogController> _logger;
+        private readonly ILogger<ProductController> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public CatalogController(ILogger<CatalogController> logger, IMediator mediator, IMapper mapper)
+        public ProductController(ILogger<ProductController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
             _mediator = mediator;
@@ -38,6 +39,7 @@ namespace Catalog.Api.Controllers
         /// In case of an unexpected error, it returns a status code of 500 (Internal Server Error).
         /// </returns>
         [HttpPost]
+        
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -63,6 +65,7 @@ namespace Catalog.Api.Controllers
         /// In case of an unexpected error, it returns a status code of 500 (Internal Server Error).
         /// </returns>
         [HttpPut]
+        [Route("products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -83,6 +86,7 @@ namespace Catalog.Api.Controllers
         /// <returns></returns>
         /// Returns the result of the product deleted as a <see cref="DeleteProductResponse"/> object with a status code of 200 (OK)
         [HttpDelete]
+        [Route("products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -119,8 +123,9 @@ namespace Catalog.Api.Controllers
         ///  Getting all products
         /// </summary>
         /// <returns></returns>
-        /// Returns the list of results with a status code of 200 (OK)
+        /// Returns the result of the product as a <see cref="IEnumerable<ProductDto>"/> object with a status code of 200 (OK)
         [HttpGet]
+        [Route("products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -129,6 +134,24 @@ namespace Catalog.Api.Controllers
             var response = await _mediator.Send(new GetAllProductsQuery());
 
             return Ok(response.Products);
+        }
+        
+        /// <summary>
+        ///  Getting products by category
+        /// </summary>
+        /// <returns></returns>
+        /// Returns the result of the product as a <see cref="IEnumerable<ProductDto>"/> object with a status code of 200 (OK)
+        [HttpGet]
+        [Route("{categoryName}/products")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(string categoryName)
+        {
+            var result = await _mediator.Send(new GetProductsByCategoryNameQuery(categoryName));
+            var response = _mapper.Map<IEnumerable<ProductDto>>(result.Products);
+
+            return Ok(response);
         }
     }
 }

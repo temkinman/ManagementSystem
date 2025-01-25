@@ -5,7 +5,7 @@ using Catalog.Application.Dtos;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 
-namespace Catalog.Application.Catalogs.Commands.CreateProduct;
+namespace Catalog.Application.Catalogs.Commands.Products.CreateProduct;
 
 public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
@@ -28,7 +28,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
 
         Product productInput = _mapper.Map<Product>(command);
 
-        Product? existingProduct = await _productRepository.GetItemByConditionAsync(x => x.Name == productInput.Name, cancellationToken);
+        Product? existingProduct = await _productRepository.GetItemByConditionAsync(x => x.Name.ToLower() == productInput.Name.ToLower(), cancellationToken);
         if (existingProduct != null)
         {
             throw new ConflictException("Product with this name already exists.");

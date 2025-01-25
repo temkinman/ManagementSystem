@@ -1,7 +1,7 @@
 using BuildingBlocks.CQRS;
 using FluentValidation;
 
-namespace Catalog.Application.Catalogs.Commands.DeleteProduct;
+namespace Catalog.Application.Catalogs.Commands.Products.DeleteProduct;
 
 public record DeleteProductCommand(Guid ProductId) : ICommand<DeleteProductResult>;
 

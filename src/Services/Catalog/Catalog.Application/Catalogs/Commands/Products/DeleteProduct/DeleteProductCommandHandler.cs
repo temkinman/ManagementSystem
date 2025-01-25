@@ -2,7 +2,7 @@ using BuildingBlocks.CQRS;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 
-namespace Catalog.Application.Catalogs.Commands.DeleteProduct;
+namespace Catalog.Application.Catalogs.Commands.Products.DeleteProduct;
 
 public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {

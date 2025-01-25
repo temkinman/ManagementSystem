@@ -5,7 +5,7 @@ using Catalog.Application.Dtos;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 
-namespace Catalog.Application.Catalogs.Commands.UpdateProduct;
+namespace Catalog.Application.Catalogs.Commands.Products.UpdateProduct;
 
 public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
@@ -28,7 +28,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand,
 
         Product productInput = _mapper.Map<Product>(command);
 
-        Product? existingProduct = await _productRepository.GetItemByConditionAsync(x => x.Name == productInput.Name, cancellationToken);
+        Product? existingProduct = await _productRepository.GetItemByConditionAsync(x => x.Name.ToLower() == productInput.Name.ToLower(), cancellationToken);
         if (existingProduct != null && existingProduct.CategoryId == productInput.CategoryId)
         {
             throw new ConflictException("Product with this name for this category already exists.");

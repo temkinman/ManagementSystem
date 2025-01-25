@@ -1,6 +1,6 @@
 using AutoMapper;
-using Catalog.Application.Catalogs.Commands.CreateProduct;
-using Catalog.Application.Catalogs.Commands.UpdateProduct;
+using Catalog.Application.Catalogs.Commands.Products.CreateProduct;
+using Catalog.Application.Catalogs.Commands.Products.UpdateProduct;
 using Catalog.Application.Dtos;
 using Catalog.Domain.Entities;
 

@@ -1,8 +1,8 @@
 using AutoMapper;
 using Catalog.Api.Dto;
-using Catalog.Application.Catalogs.Commands.CreateProduct;
-using Catalog.Application.Catalogs.Commands.DeleteProduct;
-using Catalog.Application.Catalogs.Commands.UpdateProduct;
+using Catalog.Application.Catalogs.Commands.Products.CreateProduct;
+using Catalog.Application.Catalogs.Commands.Products.DeleteProduct;
+using Catalog.Application.Catalogs.Commands.Products.UpdateProduct;
 using Catalog.Application.Catalogs.Queries.GetProductById;
 
 namespace Catalog.Api.Mapping;

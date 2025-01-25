@@ -5,7 +5,7 @@ using Catalog.Application.Dtos;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 
-namespace Catalog.Application.Catalogs.Commands.CreateCategory;
+namespace Catalog.Application.Catalogs.Commands.Categories.CreateCategory;
 
 public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryCommand, CreateCategoryResult>
 {
@@ -24,7 +24,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
 
         Category category = _mapper.Map<Category>(command);
 
-        Category? existingCategory = await _categoryRepository.GetItemByConditionAsync(x => x.Name == category.Name, cancellationToken);
+        Category? existingCategory = await _categoryRepository.GetItemByConditionAsync(x => x.Name.ToLower() == category.Name.ToLower(), cancellationToken);
         
         if (existingCategory != null)
         {

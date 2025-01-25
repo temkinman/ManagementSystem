@@ -21,7 +21,7 @@ public class GetProductsByCategoryNameQueryHandler : IQueryHandler<GetProductsBy
     
     public async Task<GetProductsByCategoryNameResult> Handle(GetProductsByCategoryNameQuery query, CancellationToken cancellationToken)
     {
-        IEnumerable<Product> products = await _productRepository.GetItemsByConditionAsync(p => p.Category.Name == query.CategoryName, cancellationToken);
+        IEnumerable<Product> products = await _productRepository.GetItemsByConditionAsync(p => p.Category.Name.ToLower() == query.CategoryName.ToLower(), cancellationToken);
         IEnumerable<ProductDto> productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
         
         return new GetProductsByCategoryNameResult(productDtos);

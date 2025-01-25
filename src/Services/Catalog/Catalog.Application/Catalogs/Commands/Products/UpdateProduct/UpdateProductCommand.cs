@@ -2,7 +2,7 @@ using BuildingBlocks.CQRS;
 using Catalog.Application.Dtos;
 using FluentValidation;
 
-namespace Catalog.Application.Catalogs.Commands.UpdateProduct;
+namespace Catalog.Application.Catalogs.Commands.Products.UpdateProduct;
 
 public record UpdateProductCommand(
     Guid Id,
