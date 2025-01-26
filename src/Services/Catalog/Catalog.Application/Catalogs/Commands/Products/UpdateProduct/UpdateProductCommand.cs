@@ -12,7 +12,7 @@ public record UpdateProductCommand(
     int Quantity,
     Guid? CategoryId) : ICommand<UpdateProductResult>;
 
-public record UpdateProductResult(ProductDto ProductDto);
+public record UpdateProductResult(ProductDto Product);
 
 public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {

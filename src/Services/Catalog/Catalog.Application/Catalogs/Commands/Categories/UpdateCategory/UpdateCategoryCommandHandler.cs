@@ -38,8 +38,10 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         {
             throw new ConflictException($"Category with this {command.Name} already exists.");
         }
+        
+        existingCategory.Name = command.Name;
 
-        Category updatedCategory = await _categoryRepository.UpdateAsync(category, cancellationToken);
+        Category updatedCategory = await _categoryRepository.UpdateAsync(existingCategory, cancellationToken);
         CategoryDto categoryDto = _mapper.Map<CategoryDto>(updatedCategory);
         
         return new UpdateCategoryResult(categoryDto);

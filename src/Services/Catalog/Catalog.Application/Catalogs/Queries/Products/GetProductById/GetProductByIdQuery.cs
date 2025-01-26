@@ -6,7 +6,7 @@ namespace Catalog.Application.Catalogs.Queries.GetProductById;
 
 public record GetProductByIdQuery(Guid ProductId) : IQuery<GetProductByIdResult>;
 
-public record GetProductByIdResult(ProductDto ProductDto);
+public record GetProductByIdResult(ProductDto Product);
 
 public class GetProductByIdQueryValidator : AbstractValidator<GetProductByIdQuery>
 {

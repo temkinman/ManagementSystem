@@ -34,9 +34,9 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
             throw new ConflictException("Product with this name already exists.");
         }
 
-        if (command.ProductDto.CategoryDto != null)
+        if (command.Product.Category != null)
         {
-            await InitCategoryForProduct(productInput, command.ProductDto.CategoryDto, cancellationToken);
+            await InitCategoryForProduct(productInput, command.Product.Category, cancellationToken);
         }
         
         Product addedProduct = await _productRepository.CreateAsync(productInput, cancellationToken);

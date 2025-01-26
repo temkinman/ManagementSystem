@@ -10,4 +10,4 @@ public record UpdateProductRequest(
     int Quantity,
     Guid? CategoryId);
 
-public record UpdateProductResponse(ProductDto ProductDto);
+public record UpdateProductResponse(ProductDto Product);

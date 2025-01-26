@@ -6,7 +6,6 @@ using Catalog.Application.Catalogs.Commands.Categories.UpdateCategory;
 using Catalog.Application.Catalogs.Queries.Categories.GetAllCategories;
 using Catalog.Application.Catalogs.Queries.Categories.GetAllCategoryById;
 using Catalog.Application.Catalogs.Queries.Categories.GetAllCategoryByName;
-using Catalog.Application.Catalogs.Queries.GetProductsByCategoryName;
 using Catalog.Application.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,14 +39,14 @@ namespace Catalog.Api.Controllers
         /// In case of an unexpected error, it returns a status code of 500 (Internal Server Error).
         /// </returns>
         [HttpPost]
+        [Route("categories")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CreateCategoryResponse>> CreateCategory(CreateProductRequest request)
+        public async Task<ActionResult<CreateCategoryResponse>> CreateCategory(CreateCategoryRequest request)
         {
-            var command = _mapper.Map<CreateCategoryCommand>(request);
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new CreateCategoryCommand(request.CategoryName));
             var response = _mapper.Map<CreateCategoryResponse>(result);
 
             return Ok(response);
@@ -69,6 +68,7 @@ namespace Catalog.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UpdateProductResponse>> UpdateCategory(UpdateCategoryRequest request)
         {
@@ -86,10 +86,10 @@ namespace Catalog.Api.Controllers
         /// <returns></returns>
         /// Returns the result of the product deleted as a <see cref="DeleteCategoryResponse"/> object with a status code of 200 (OK)
         [HttpDelete]
-        [Route("categories")]
+        [Route("categories/{categoryId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<DeleteCategoryResponse>> DeleteProduct(Guid categoryId)
         {
@@ -106,14 +106,15 @@ namespace Catalog.Api.Controllers
         /// <returns></returns>
         /// Returns the result of the product as a <see cref="CategoryDto"/> object with a status code of 200 (OK)
         [HttpGet]
-        [Route("categories/{id}")]
+        [Route("categories/{categoryId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CategoryDto>> GetCategoryById(Guid id)
+        public async Task<ActionResult<CategoryDto>> GetCategoryById(Guid categoryId)
         {
-            var result = await _mediator.Send(new GetCategoryByIdQuery(id));
-            var response = _mapper.Map<CategoryDto>(result);
+            var result = await _mediator.Send(new GetCategoryByIdQuery(categoryId));
+            var response = _mapper.Map<CategoryDto>(result.Category);
 
             return Ok(response);
         }
@@ -127,6 +128,7 @@ namespace Catalog.Api.Controllers
         [Route("categories")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateCategoryResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllCategories()
         {
@@ -138,18 +140,19 @@ namespace Catalog.Api.Controllers
         /// <summary>
         ///  Getting category by name
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="categoryName"></param>
         /// <returns></returns>
         /// Returns the result of the categories as a <see cref="CategoryDto"/> object with a status code of 200 (OK)
         [HttpGet]
         [Route("categories/search/{categoryName}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CategoryDto>> GetCategoryByName(string categoryName)
         {
             var result = await _mediator.Send(new GetCategoryByNameQuery(categoryName));
-            var response = _mapper.Map<CategoryDto>(result);
+            var response = _mapper.Map<CategoryDto>(result.Category);
 
             return Ok(response);
         }

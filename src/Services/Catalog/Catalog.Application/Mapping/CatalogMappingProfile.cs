@@ -1,4 +1,6 @@
 using AutoMapper;
+using Catalog.Application.Catalogs.Commands.Categories.CreateCategory;
+using Catalog.Application.Catalogs.Commands.Categories.UpdateCategory;
 using Catalog.Application.Catalogs.Commands.Products.CreateProduct;
 using Catalog.Application.Catalogs.Commands.Products.UpdateProduct;
 using Catalog.Application.Dtos;
@@ -12,10 +14,10 @@ public class CatalogMappingProfile : Profile
     {
         CreateMap<CreateProductCommand, Product>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ProductDto.Name))
-            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.ProductDto.Description))
-            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.ProductDto.Quantity))
-            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.ProductDto.Price))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Product.Name))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Product.Description))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Product.Quantity))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Product.Price))
             .ForMember(dest => dest.Category, opt => opt.Ignore());
         
         CreateMap<UpdateProductCommand, Product>()
@@ -23,14 +25,18 @@ public class CatalogMappingProfile : Profile
 
         CreateMap<ProductDto, Product>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.CategoryDto != null ?
-                new CategoryDto(src.CategoryDto.Name) :
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category != null ?
+                new CategoryDto(src.Category.Name) :
                 null));
 
         CreateMap<Product, ProductDto>()
-            .ForMember(dest => dest.CategoryDto, opt => opt.MapFrom(src => src.Category));
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
         
         CreateMap<Category, CategoryDto>();
+        CreateMap<CreateCategoryCommand, Category>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CategoryName));
+        CreateMap<UpdateCategoryCommand, Category>();
         
         CreateMap<CategoryDto, Category>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());

@@ -32,8 +32,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         }
 
         Category addedCategory = await _categoryRepository.CreateAsync(category, cancellationToken);
-        CategoryDto categoryDto = _mapper.Map<CategoryDto>(addedCategory);
         
-        return new CreateCategoryResult(categoryDto);
+        return new CreateCategoryResult(addedCategory.Id);
     }
 }

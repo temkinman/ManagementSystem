@@ -5,7 +5,7 @@ public record ProductDto(
     string Description,
     decimal Price,
     int Quantity,
-    CategoryDto? CategoryDto)
+    CategoryDto? Category)
 {
     public ProductDto() : this(string.Empty, string.Empty, 0m, 0, null)
     { }

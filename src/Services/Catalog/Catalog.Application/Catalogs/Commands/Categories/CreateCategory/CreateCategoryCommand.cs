@@ -1,12 +1,11 @@
 using BuildingBlocks.CQRS;
-using Catalog.Application.Dtos;
 using FluentValidation;
 
 namespace Catalog.Application.Catalogs.Commands.Categories.CreateCategory;
 
 public record CreateCategoryCommand(string CategoryName) : ICommand<CreateCategoryResult>;
 
-public record CreateCategoryResult(CategoryDto Category);
+public record CreateCategoryResult(Guid Id);
 
 public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {

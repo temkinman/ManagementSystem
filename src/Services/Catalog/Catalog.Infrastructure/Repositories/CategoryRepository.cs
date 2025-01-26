@@ -15,26 +15,26 @@ public class CategoryRepository : ICategoryRepository
         _catalogDbContext = catalogDbContext;
     }
 
-    public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _catalogDbContext.Categories
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Category>> GetItemsByConditionAsync(Expression<Func<Category, bool>> conditionExpression, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Category>> GetItemsByConditionAsync(Expression<Func<Category, bool>> conditionExpression, CancellationToken cancellationToken)
     {
         return await _catalogDbContext.Categories.Where(conditionExpression)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Category?> GetItemByConditionAsync(Expression<Func<Category, bool>> conditionExpression, CancellationToken cancellationToken = default)
+    public async Task<Category?> GetItemByConditionAsync(Expression<Func<Category, bool>> conditionExpression, CancellationToken cancellationToken)
     {
         return await _catalogDbContext.Categories.FirstOrDefaultAsync(conditionExpression, cancellationToken);
     }
 
-    public async Task<Category> CreateAsync(Category category, CancellationToken cancellationToken = default)
+    public async Task<Category> CreateAsync(Category category, CancellationToken cancellationToken)
     {
         await _catalogDbContext.Categories.AddAsync(category, cancellationToken);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
@@ -42,7 +42,7 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
-    public async Task<Category> UpdateAsync(Category category, CancellationToken cancellationToken = default)
+    public async Task<Category> UpdateAsync(Category category, CancellationToken cancellationToken)
     {
         _catalogDbContext.Categories.Update(category);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
@@ -50,8 +50,15 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
-    public async Task<bool> DeleteAsync(Category category, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(Category category, CancellationToken cancellationToken)
     {
+        await _catalogDbContext.Entry(category).Collection(c => c.Products).LoadAsync(cancellationToken);
+        
+        foreach (Product product in category.Products)
+        {
+            product.CategoryId = null;
+        }
+        
         _catalogDbContext.Categories.Remove(category);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
         

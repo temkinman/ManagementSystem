@@ -39,7 +39,7 @@ namespace Catalog.Api.Controllers
         /// In case of an unexpected error, it returns a status code of 500 (Internal Server Error).
         /// </returns>
         [HttpPost]
-        
+        [Route("products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -68,6 +68,7 @@ namespace Catalog.Api.Controllers
         [Route("products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UpdateProductResponse>> UpdateProduct(UpdateProductRequest request)
@@ -86,9 +87,10 @@ namespace Catalog.Api.Controllers
         /// <returns></returns>
         /// Returns the result of the product deleted as a <see cref="DeleteProductResponse"/> object with a status code of 200 (OK)
         [HttpDelete]
-        [Route("products")]
+        [Route("products/{productId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<DeleteProductResponse>> DeleteProduct(Guid productId)
@@ -109,6 +111,7 @@ namespace Catalog.Api.Controllers
         [Route("products/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetProductByIdResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<GetProductByIdResponse>> GetProductById(Guid id)
@@ -128,6 +131,7 @@ namespace Catalog.Api.Controllers
         [Route("products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
         {
@@ -145,6 +149,7 @@ namespace Catalog.Api.Controllers
         [Route("{categoryName}/products")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(string categoryName)
         {

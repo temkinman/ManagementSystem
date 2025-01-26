@@ -6,7 +6,7 @@ namespace Catalog.Application.Catalogs.Queries.Categories.GetAllCategoryByName;
 
 public record GetCategoryByNameQuery(string CategoryName) : IQuery<GetCategoryByNameResult>;
 
-public record GetCategoryByNameResult(CategoryDto CategoryDto);
+public record GetCategoryByNameResult(CategoryDto Category);
 
 public class GetCategoryByIdQueryValidator : AbstractValidator<GetCategoryByNameQuery>
 {
