@@ -10,6 +10,6 @@ public class Product
     public DateTime CreatedDateUtc { get; set; }
     public DateTime UpdatedDateUtc { get; set; }
     
-    public Guid CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
     public Category? Category { get; set; }
 }

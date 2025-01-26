@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Catalogs\Queries\" />
+    <Folder Include="Catalogs\Commands\Categories\" />
+    <Folder Include="Catalogs\Commands\Products\" />
+    <Folder Include="Catalogs\Queries\Products\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
