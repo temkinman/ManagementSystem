@@ -2,7 +2,7 @@ using BuildingBlocks.Behaviors;
 using BuildingBlocks.Middlewares;
 using Catalog.Api.Mapping;
 using Catalog.Application;
-using Catalog.Application.Catalogs.Commands.CreateProduct;
+using Catalog.Application.Catalogs.Commands.Products.CreateProduct;
 using Catalog.Infrastructure;
 using Catalog.Infrastructure.Contexts;
 using FluentValidation;

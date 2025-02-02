@@ -16,6 +16,7 @@ public class ProductRepository : IProductRepository
     public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _catalogDbContext.Products
+            .Include(p => p.Category)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -23,17 +24,22 @@ public class ProductRepository : IProductRepository
     public async Task<IEnumerable<Product>> GetItemsByConditionAsync(Expression<Func<Product, bool>> conditionExpression, CancellationToken cancellationToken)
     {
         return await _catalogDbContext.Products.Where(conditionExpression)
+            .Include(p => p.Category)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 
     public async Task<Product?> GetItemByConditionAsync(Expression<Func<Product, bool>> conditionExpression, CancellationToken cancellationToken)
     {
-        return  await _catalogDbContext.Products.FirstOrDefaultAsync(conditionExpression, cancellationToken);
+        return  await _catalogDbContext.Products
+            .Include(p => p.Category)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(conditionExpression, cancellationToken);
     }
 
     public async Task<Product> CreateAsync(Product product, CancellationToken cancellationToken)
     {
+        product.Id = Guid.NewGuid();
         product.CreatedDateUtc = DateTime.UtcNow;
         product.UpdatedDateUtc = DateTime.UtcNow;
         
@@ -45,6 +51,8 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> UpdateAsync(Product product, CancellationToken cancellationToken)
     {
+        product.UpdatedDateUtc = DateTime.UtcNow;
+        
         _catalogDbContext.Products.Update(product);
         await _catalogDbContext.SaveChangesAsync(cancellationToken);
 
