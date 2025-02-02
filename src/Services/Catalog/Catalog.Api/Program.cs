@@ -4,7 +4,9 @@ using Catalog.Api.Mapping;
 using Catalog.Application;
 using Catalog.Application.Catalogs.Commands.CreateProduct;
 using Catalog.Infrastructure;
+using Catalog.Infrastructure.Contexts;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider
+            .GetRequiredService<CatalogDbContext>();
+
+        dbContext.Database.Migrate();
+    }
 }
 
 app.UseHttpsRedirection();

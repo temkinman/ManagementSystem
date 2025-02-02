@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{925F4C30-272E-4825-A9CF-E05595BF9D0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7DD36671-9240-492F-BD7E-6A2976679F60}"
+	ProjectSection(SolutionItems) = preProject
+		src\Services\docker-compose.yml = src\Services\docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{1AB1B97B-0A6D-4194-A207-610A6DD9AB29}"
 EndProject
