@@ -34,6 +34,11 @@ public class CategoryRepository : ICategoryRepository
         return await _catalogDbContext.Categories.FirstOrDefaultAsync(conditionExpression, cancellationToken);
     }
 
+    public async Task<Category?> GetItemByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _catalogDbContext.Categories.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
     public async Task<Category> CreateAsync(Category category, CancellationToken cancellationToken)
     {
         await _catalogDbContext.Categories.AddAsync(category, cancellationToken);

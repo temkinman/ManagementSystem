@@ -37,6 +37,11 @@ public class ProductRepository : IProductRepository
             .FirstOrDefaultAsync(conditionExpression, cancellationToken);
     }
 
+    public Task<Product?> GetItemByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Product> CreateAsync(Product product, CancellationToken cancellationToken)
     {
         product.Id = Guid.NewGuid();
